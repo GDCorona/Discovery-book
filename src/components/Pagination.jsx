@@ -14,7 +14,7 @@ export default function Pagination({ page, totalPages, onPageChange }) {
       <button
         onClick={() => onPageChange(page - 1)}
         disabled={page === 1}
-        className={`p-3 mb-3 text-[#4b2e2a] text-5xl cursor-pointer ${
+        className={`p-3 mb-3 text-[#4b2e2a] text-5xl ${
           page === 1 ? "opacity-0" : "hover:scale-110 transition"
         }`}
       >
@@ -26,7 +26,7 @@ export default function Pagination({ page, totalPages, onPageChange }) {
         <>
           <button
             onClick={() => onPageChange(1)}
-            className="w-8 h-8 flex items-center justify-center rounded hover:bg-[#d5c5c2] cursor-pointer"
+            className="w-8 h-8 flex items-center justify-center rounded hover:bg-[#d5c5c2]"
           >
             1
           </button>
@@ -39,7 +39,7 @@ export default function Pagination({ page, totalPages, onPageChange }) {
         <button
           key={p}
           onClick={() => onPageChange(p)}
-          className={`w-8 h-8 flex items-center justify-center rounded cursor-pointer ${
+          className={`w-8 h-8 flex items-center justify-center rounded ${
             p === page
               ? "bg-[#4b2e2a] text-white"
               : "hover:bg-[#d5c5c2] text-[#4b2e2a]"
@@ -55,7 +55,7 @@ export default function Pagination({ page, totalPages, onPageChange }) {
           {end < totalPages - 1 && <span className="px-1 text-[#6b4f45]">...</span>}
           <button
             onClick={() => onPageChange(totalPages)}
-            className="w-8 h-8 flex items-center justify-center rounded hover:bg-[#d5c5c2] cursor-pointer"
+            className="w-8 h-8 flex items-center justify-center rounded hover:bg-[#d5c5c2]"
           >
             {totalPages}
           </button>
@@ -66,7 +66,7 @@ export default function Pagination({ page, totalPages, onPageChange }) {
       <button
         onClick={() => onPageChange(page + 1)}
         disabled={page === totalPages}
-        className={`p-3 mb-3 text-[#4b2e2a] text-5xl cursor-pointer ${
+        className={`p-3 mb-3 text-[#4b2e2a] text-5xl ${
           page === totalPages ? "opacity-0" : "hover:scale-110 transition"
         }`}
       >
