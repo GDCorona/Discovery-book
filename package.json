@@ -3,7 +3,7 @@
   "private": true,
   "version": "0.0.0",
   "type": "module",
-  "homepage": "https://GDCorona.github.io/Discovery-book/",
+  "homepage": "https://GDCorona.github.io/my-bookshop/",
   "scripts": {
     "dev": "vite",
     "build": "vite build",
