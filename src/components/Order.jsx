@@ -103,6 +103,11 @@ export default function Order() {
                                         <p className="font-medium">{currency(item.price * item.quantity)}</p>
                                     </div>
                                 ))}
+                                {order.items.length > 2 && (
+                                    <div className="py-3 text-sm text-gray-500 italic">
+                                    + {order.items.length - 2} sản phẩm khác
+                                    </div>
+                                )}
                             </div>
                             {/* --- Order Footer --- */}
                             <div className="bg-white px-6 py-4 border-t flex justify-between items-center">
