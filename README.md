@@ -1,16 +1,18 @@
-# React + Vite
+# 📚 Discovery Book - Online Bookshop
+Discovery Book là một trang web thương mại điện tử chuyên về sách, được xây dựng bằng ReactJS. Dự án hướng tới việc cung cấp trải nghiệm mua sắm trực tuyến mượt mà, giao diện thân thiện và tính năng tìm kiếm sách thông minh cho người dùng Việt Nam và quốc tế.
 
-This template provides a minimal setup to get React working in Vite with HMR and some ESLint rules.
+# 🚀 Tính năng nổi bật
+🛒 Giỏ hàng & Thanh toán: Thêm, sửa, xóa sản phẩm trong giỏ hàng; quy trình thanh toán đơn giản.
 
-Currently, two official plugins are available:
+🔍 Tìm kiếm & Lọc: Tìm kiếm sách theo tên, tác giả, thể loại; lọc theo giá bán.
 
-- [@vitejs/plugin-react](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react) uses [Babel](https://babeljs.io/) (or [oxc](https://oxc.rs) when used in [rolldown-vite](https://vite.dev/guide/rolldown)) for Fast Refresh
-- [@vitejs/plugin-react-swc](https://github.com/vitejs/vite-plugin-react/blob/main/packages/plugin-react-swc) uses [SWC](https://swc.rs/) for Fast Refresh
+📱 Responsive Design: Giao diện tương thích hoàn toàn trên Desktop, Tablet và Mobile.
 
-## React Compiler
+⭐ Đánh giá sách: Xem và viết đánh giá cho các đầu sách.
 
-The React Compiler is not enabled on this template because of its impact on dev & build performances. To add it, see [this documentation](https://react.dev/learn/react-compiler/installation).
+👤 Tài khoản: Đăng ký, đăng nhập, quản lý thông tin cá nhân và lịch sử đơn hàng.
 
-## Expanding the ESLint configuration
+# 🛠️ Công nghệ sử dụng
+ReactJS (Create React App / Vite)
 
-If you are developing a production application, we recommend using TypeScript with type-aware lint rules enabled. Check out the [TS template](https://github.com/vitejs/vite/tree/main/packages/create-vite/template-react-ts) for information on how to integrate TypeScript and [`typescript-eslint`](https://typescript-eslint.io) in your project.
+Tailwind CSS (Styling)
