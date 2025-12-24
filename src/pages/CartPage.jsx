@@ -37,11 +37,6 @@ export default function CartPage() {
     selectedIds.forEach(id => removeFromCart(id));
     setSelectedIds([]);
   };
-  //navigate to payment page
-  const handlePayment = () => {
-    if (selectedIds.length === 0) return;
-    navigate("/payment", { state: { selectedIds } });
-  };
   return (
     <div className="max-w-5xl mx-auto p-6 mt-8">
       <h1 className="text-2xl font-bold mb-6">

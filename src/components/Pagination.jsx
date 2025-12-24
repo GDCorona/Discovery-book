@@ -9,7 +9,7 @@ export default function Pagination({ page, totalPages, onPageChange }) {
   for (let i = start; i <= end; i++) pages.push(i);
 
   return (
-    <div className="flex justify-center items-center gap-1 mt-8 select-none">
+    <div className="flex justify-center items-center gap-1 mt-3 select-none">
       {/* Prev arrow */}
       <button
         onClick={() => onPageChange(page - 1)}

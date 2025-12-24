@@ -8,7 +8,7 @@ export default function Favorite() {
     <>
       <h1 className="text-2xl font-bold mb-6">Sản phẩm yêu thích</h1>
       {favorites.length === 0 ? (
-        <p className="text-gray-500">Chưa có sản phẩm yêu thích nào.</p>
+        <p className="text-gray-500">Bạn chưa có sản phẩm yêu thích nào.</p>
       ) : (
         <div className="grid grid-cols-4 gap-5">
           {favorites.map((b) => (

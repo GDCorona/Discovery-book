@@ -16,7 +16,7 @@ export default function Footer() {
   return (
     <footer className="bg-[#2b1f1a] text-[#f7f3f1] mt-16">
       {/* TOP FOOTER */}
-      <div className="max-w-7xl mx-auto py-12 grid grid-cols-1 md:grid-cols-5 gap-15">
+      <div className="max-w-7xl mx-auto py-12 px-10 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-9">
         <div className="col-span-2">
           {/* ABOUT */}
           <div className="flex items-center gap-2 cursor-pointer mb-3">
@@ -60,10 +60,10 @@ export default function Footer() {
         <div>
           <h3 className="text-xl font-semibold mb-4">Thông tin</h3>
           <ul className="space-y-2 text-base text-[#d6c9c3]">
-            <li><Link to="#" className="hover:text-white">Giới thiệu</Link></li>
-            <li><Link to="#" className="hover:text-white">Tuyển dụng</Link></li>
-            <li><Link to="#" className="hover:text-white">Hệ thống nhà sách</Link></li>    
-            <li><Link to="#" className="hover:text-white">Điều khoản sử dụng</Link></li>   
+            <li><Link to="#" className="hover:text-[#b74e3a]">Giới thiệu</Link></li>
+            <li><Link to="#" className="hover:text-[#b74e3a]">Tuyển dụng</Link></li>
+            <li><Link to="#" className="hover:text-[#b74e3a]">Hệ thống nhà sách</Link></li>    
+            <li><Link to="#" className="hover:text-[#b74e3a]">Điều khoản sử dụng</Link></li>   
           </ul>
         </div>
 
@@ -71,10 +71,10 @@ export default function Footer() {
         <div>
           <h3 className="text-xl font-semibold mb-4">Hỗ trợ</h3>
           <ul className="space-y-2 text-base text-[#d6c9c3]">
-            <li><Link to="#" className="hover:text-white">Câu hỏi thường gặp</Link></li>
-            <li><Link to="#" className="hover:text-white">Chính sách bảo mật</Link></li>
-            <li><Link to="#" className="hover:text-white">Chính sách đổi trả</Link></li>
-            <li><Link to="#" className="hover:text-white">Chính sách vận chuyển</Link></li>
+            <li><Link to="#" className="hover:text-[#b74e3a]">Câu hỏi thường gặp</Link></li>
+            <li><Link to="#" className="hover:text-[#b74e3a]">Chính sách bảo mật</Link></li>
+            <li><Link to="#" className="hover:text-[#b74e3a]">Chính sách đổi trả</Link></li>
+            <li><Link to="#" className="hover:text-[#b74e3a]">Chính sách vận chuyển</Link></li>
           </ul>
         </div>
 

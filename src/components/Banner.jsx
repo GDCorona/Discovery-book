@@ -4,14 +4,14 @@ const banners = [
   {
     id: 1,
     image: "https://images.unsplash.com/photo-1544716278-ca5e3f4abd8c?q=80&w=1600",
-    title: "Giáng Sinh Sale 50%",
-    subtitle: "Hàng ngàn tựa sách ưu đãi cuối năm",
+    title: "Mùa Giáng Sinh rộn ràng",
+    subtitle: "Giảm giá SỐC lên đến 50% cho hàng ngàn đầu sách",
   },
   {
     id: 2,
     image: "https://images.unsplash.com/photo-1512820790803-83ca734da794?q=80&w=1600",
-    title: "Best Seller 2024",
-    subtitle: "Những cuốn sách được yêu thích nhất",
+    title: "Quà tặng tháng 12",
+    subtitle: "Khám phá bộ sưu tập sách Mùa Đông và Văn học kinh điển",
   },
   {
     id: 3,

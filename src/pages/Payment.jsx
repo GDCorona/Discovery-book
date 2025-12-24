@@ -5,111 +5,137 @@ import { useNavigate } from "react-router-dom";
 import data from "../data/vietnam.json";
 import useIcons from "../hooks/useIcons";
 export default function Payment() {
-    const icons = useIcons();
-    const { cart, totalPrice } = useCart();
-    const { user } = useAuth();
-    const [errors, setErrors] = useState({});
-    const navigate = useNavigate();
-    // Redirect if cart empty
-    if (cart.length === 0) return navigate("/cart");
-    // User info logic
-    const [info, setInfo] = useState({
-        fullname: "",
-        phone: "",
-        email: "",
-        city: "",
-        district: "",
-        ward: "",
-        address: ""
-    });
-    useEffect(() => {
-      if (!user) return;
-      setInfo(prev => ({
-        ...prev,
-        fullname: user.fullname || "",
-        phone: user.phone || "",
-        email: user.email || ""
-      }));
-    }, [user]);
+  const icons = useIcons();
+  const { cart, totalPrice } = useCart();
+  const { user } = useAuth();
+  const [errors, setErrors] = useState({});
+  const navigate = useNavigate();
+  // Redirect if cart empty
+  if (cart.length === 0) return navigate("/cart");
+  // User info logic
+  const [info, setInfo] = useState({
+      fullname: "",
+      phone: "",
+      email: "",
+      city: "",
+      district: "",
+      ward: "",
+      address: ""
+  });
+  useEffect(() => {
+    if (!user) return;
+    setInfo(prev => ({
+      ...prev,
+      fullname: user.fullname || "",
+      phone: user.phone || "",
+      email: user.email || ""
+    }));
+  }, [user]);
 
-    const [payment, setPayment] = useState("cod");
-    const handleChange = (e) => {
-        setInfo({ ...info, [e.target.name]: e.target.value });
-        setErrors(prev => ({ ...prev, [e.target.name]: null })); //clear error when user recorrect
-    };
-    const handlePayment = () => {
-        let newErrors = {};
-        // Check fullname
-        if (!info.fullname.trim()) newErrors.fullname = "Vui lòng nhập họ tên.";
-        // Check phone
-        const phoneRegex = /^[0-9]{9,11}$/;
-        if (!info.phone.trim()){ 
-          newErrors.phone = "Vui lòng nhập số điện thoại.";
-        } else if (!phoneRegex.test(info.phone)){
-          newErrors.phone = "Số điện thoại không hợp lệ.";
-        }
-        // Check email
-        const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
-        if (!info.email.trim()) {
-          newErrors.email = "Vui lòng nhập email.";
-        } else if (!emailRegex.test(info.email)) {
-          newErrors.email = "Email không hợp lệ.";
-        }
-        // Check info
-        if (!city) newErrors.city = "Vui lòng chọn Tỉnh/Thành phố.";
-        if (!district) newErrors.district = "Vui lòng chọn Quận/Huyện.";
-        if (!ward) newErrors.ward = "Vui lòng chọn Phường/Xã.";
-        if (!info.address.trim()) newErrors.address = "Vui lòng nhập địa chỉ cụ thể.";
-        // If errors exist → stop
-        if (Object.keys(newErrors).length > 0) {
-            setErrors(newErrors);
-            return;
-        }
-        // Success
-        alert("Thanh toán thành công!");
-        navigate("/");
-    };
-
-    const [city, setCity] = useState("");
-    const [district, setDistrict] = useState("");
-    const [ward, setWard] = useState("");
-    const [districtList, setDistrictList] = useState([]);
-    const [wardList, setWardList] = useState([]);
-
-    // Handle choosing Tỉnh/Thành phố
-    const handleCity = (e) => {
-        const value = e.target.value;
-        setCity(value);
-        setDistrict("");
-        setWard("");
-        setErrors(prev => ({ ...prev, city: null })); //clear error when user recorrect
-        const cityObj = data.find((c) => c.Name === value);
-        setDistrictList(cityObj ? cityObj.Districts : []);
-        setWardList([]);
+  const [payment, setPayment] = useState("cod");
+  const handleChange = (e) => {
+    setInfo({ ...info, [e.target.name]: e.target.value });
+    setErrors(prev => ({ ...prev, [e.target.name]: null })); //clear error when user recorrect
+  };
+  const handlePayment = () => {
+    // ===== ERROR CHECK =====
+    let newErrors = {};
+    // Check fullname
+    if (!info.fullname.trim()) newErrors.fullname = "Vui lòng nhập họ tên.";
+    // Check phone
+    const phoneRegex = /^[0-9]{9,11}$/;
+    if (!info.phone.trim()){ 
+      newErrors.phone = "Vui lòng nhập số điện thoại.";
+    } else if (!phoneRegex.test(info.phone)){
+      newErrors.phone = "Số điện thoại không hợp lệ.";
+    }
+    // Check email
+    const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+    if (!info.email.trim()) {
+      newErrors.email = "Vui lòng nhập email.";
+    } else if (!emailRegex.test(info.email)) {
+      newErrors.email = "Email không hợp lệ.";
+    }
+    // Check info
+    if (!city) newErrors.city = "Vui lòng chọn Tỉnh/Thành phố.";
+    if (!district) newErrors.district = "Vui lòng chọn Quận/Huyện.";
+    if (!ward) newErrors.ward = "Vui lòng chọn Phường/Xã.";
+    if (!info.address.trim()) newErrors.address = "Vui lòng nhập địa chỉ cụ thể.";
+    // If errors exist → stop
+    if (Object.keys(newErrors).length > 0) {
+        setErrors(newErrors);
+        return;
+    }
+    // ===== SUCCESS =====
+    //create order
+    const newOrder = {
+      id: "ORD_" + Date.now(),
+      userId: user.id,
+      items: cart,
+      total: totalPrice,
+      paymentMethod: payment,
+      shippingAddress: {
+        ...info,
+        city,
+        district,
+        ward,
+      },
+      status: "Đang xử lý",
+      createdAt: Date.now(),
     };
 
-    // Handle choosing Quận/Huyện
-    const handleDistrict = (e) => {
-        const value = e.target.value;
-        setDistrict(value);
-        setWard("");
-        setErrors(prev => ({ ...prev, district: null })); //clear error when user recorrect
-        const districtObj = districtList.find((d) => d.Name === value);
-        setWardList(districtObj ? districtObj.Wards : []);
-    };
-    const disabledStyle = "bg-gray-100 cursor-not-allowed opacity-60 border-gray-300 text-gray-500";
-    const paymentMethods = [
-        { id: "zalopay", label: "Ví ZaloPay", icon: icons.zalopay },
-        { id: "vnPay", label: "VNPAY", icon: icons.vnpay },
-        { id: "momo", label: "Ví Momo", icon: icons.momo},
-        { id: "atm", label: "ATM / Internet Banking", icon: icons.atm },
-        { id: "visa", label: "Visa / Mastercard", icon: icons.visa },
-        { id: "cod", label: "Thanh toán khi nhận hàng (COD)", icon: icons.cash }
-    ];
+    const ORDER_KEY = `orders_${user.id}`;
+    const existing = JSON.parse(localStorage.getItem(ORDER_KEY)) || [];
+    localStorage.setItem(
+      ORDER_KEY,
+      JSON.stringify([newOrder, ...existing])
+    );
+
+    // Clear cart
+    localStorage.removeItem("cart");
+    alert("Thanh toán thành công!");
+    navigate("/account/order");
+  };
+
+  const [city, setCity] = useState("");
+  const [district, setDistrict] = useState("");
+  const [ward, setWard] = useState("");
+  const [districtList, setDistrictList] = useState([]);
+  const [wardList, setWardList] = useState([]);
+
+  // Handle choosing Tỉnh/Thành phố
+  const handleCity = (e) => {
+    const value = e.target.value;
+    setCity(value);
+    setDistrict("");
+    setWard("");
+    setErrors(prev => ({ ...prev, city: null })); //clear error when user recorrect
+    const cityObj = data.find((c) => c.Name === value);
+    setDistrictList(cityObj ? cityObj.Districts : []);
+    setWardList([]);
+  };
+
+  // Handle choosing Quận/Huyện
+  const handleDistrict = (e) => {
+    const value = e.target.value;
+    setDistrict(value);
+    setWard("");
+    setErrors(prev => ({ ...prev, district: null })); //clear error when user recorrect
+    const districtObj = districtList.find((d) => d.Name === value);
+    setWardList(districtObj ? districtObj.Wards : []);
+  };
+  const disabledStyle = "bg-gray-100 cursor-not-allowed opacity-60 border-gray-300 text-gray-500";
+  const paymentMethods = [
+    { id: "zalopay", label: "Ví ZaloPay", icon: icons.zalopay },
+    { id: "vnPay", label: "VNPAY", icon: icons.vnpay },
+    { id: "momo", label: "Ví Momo", icon: icons.momo},
+    { id: "atm", label: "ATM / Internet Banking", icon: icons.atm },
+    { id: "visa", label: "Visa / Mastercard", icon: icons.visa },
+    { id: "cod", label: "Thanh toán khi nhận hàng (COD)", icon: icons.cash }
+  ];
   return (
     <div className="py-10">
       <h1 className="text-3xl font-bold mb-6">Thanh toán</h1>
-
       <div className="flex justify-center gap-8">
         {/** LEFT SECTION */}
         <div className="w-[55%] space-y-8">

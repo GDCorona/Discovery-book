@@ -1,13 +1,12 @@
 import { useState, useEffect, useRef } from "react";
 import useIcons from "../hooks/useIcons.js";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, Link } from "react-router-dom";
 import { useCart } from "../context/CartContext.jsx";
 import { useAuth } from "../context/AuthContext.jsx";
 
 export default function Header(){
   const icons = useIcons();
   const navigate = useNavigate();
-
   //Language logic
   const [lang, setLang] = useState("vi");
   const toggleLanguage = () => {
@@ -19,9 +18,7 @@ export default function Header(){
   const visibleItems = cart.slice(0, MAX_VISIBLE_ITEMS);
   const hasMoreItems = cart.length > MAX_VISIBLE_ITEMS;
   //Login logic
-  const { user, login, register, logout } = useAuth();
-  const [authMode, setAuthMode] = useState("login"); // "login" or "signup"
-  const [showAuthModal, setShowAuthModal] = useState(false);
+  const { user, login, register, logout, showAuthModal, setShowAuthModal, authMode, setAuthMode } = useAuth();
   const modalRef = useRef(null);
   useEffect(() => {
   const openLogin = () => {
@@ -190,37 +187,175 @@ export default function Header(){
   const [hoveredCategory, setHoveredCategory] = useState(null);
   const closeTimerRef = useRef(null);
   const categories = [
-      {
-        name: "Sách Tiếng Việt",
-        subcategories: [
-          { title: "VĂN HỌC", items: ["Tiểu Thuyết", "Ngôn Tình", "Truyện Ngắn", "Light Novel"] },
-          { title: "KINH TẾ", items: ["Quản Trị - Lãnh Đạo", "Marketing - Bán Hàng", "Khởi Nghiệp - Làm Giàu", "Phân Tích Kinh Tế"] },
-          { title: "TÂM LÝ - KỸ NĂNG SỐNG", items: ["Kỹ Năng Sống", "Rèn Luyện Nhân Cách", "Tâm Lý", "Sách Cho Tuổi Mới Lớn"] },
-          { title: "TIỂU SỬ - HỒI KÝ", items: ["Câu Chuyện Cuộc Đời", "Nghệ Thuật - Giải Trí", "Chính Trị", "Thể Thao"] },
-          { title: "SÁCH THIẾU NHI", items: ["Truyện Tranh", "Tô Màu, Luyện Chữ", "Kiến Thức Bách Khoa", "Sách Nói"] },
-          { title: "SÁCH HỌC NGOẠI NGỮ", items: ["Tiếng Anh", "Tiếng Trung", "Tiếng Nhật", "Tiếng Pháp"] }
-        ],
-      },
-      {
-        name: "Sách Nước Ngoài",
-        subcategories: [
-          { title: "FICTION", items: ["Romance", "Fantasy", "Mystery"] },
-          { title: "BUSINESS & MANAGEMENT", items: ["Economics", "Leadership", "Finance & Accounting", "Law"] },
-          { title: "PERSONAL DEVELOPMENT", items: ["Personal Finance", "Consumer Advice", "Education"] },
-          { title: "SOCIAL SCIENCE", items: ["Humanities", "Scociology", "Psychology", "Statistics"] },
-          { title: "ENGINEERING", items: ["Mechanical", "Computer", "Electrical", "Civil"] },
-          { title: "MEDICAL", items: ["Anatomy", "Nursing", "Medical Psychology", "Administration & Policy"] },
-        ],
-      },
-      {
-        name: "Sách Giáo Khoa",
-        subcategories: [
-          { title: "SÁCH GIÁO KHOA", items: ["Lớp 1", "Lớp 2", "Lớp 3", "Lớp 4", "Lớp 5", "Lớp 6", "Lớp 7", "Lớp 8", "Lớp 9", "Lớp 10", "Lớp 11", "Lớp 12",] },
-          { title: "SÁCH THAM KHẢO", items: ["Lớp 1", "Lớp 2", "Lớp 3", "Lớp 4", "Lớp 5", "Lớp 6", "Lớp 7", "Lớp 8", "Lớp 9", "Lớp 10", "Lớp 11", "Lớp 12",] },
-          { title: "LUYỆN THI THPTQG", items: ["Môn Toán", "Môn Ngữ Văn", "Môn Tiếng Anh", "Môn Vật Lý", "Môn Hóa Học", "Môn Sinh Học", "Môn Lịch Sử", "Môn Địa Lý"] }
-        ],
-      },
-    ];
+    {
+      name: "Sách Tiếng Việt",
+      subcategories: [
+        { 
+          title: "VĂN HỌC", 
+          items: [
+            { label: "Tiểu Thuyết", slug: "tieu-thuyet" },
+            { label: "Ngôn Tình", slug: "ngon-tinh" },
+            { label: "Truyện Ngắn", slug: "truyen-ngan" },
+            { label: "Light Novel", slug: "light-novel" }
+          ] 
+        },
+        { 
+          title: "KINH TẾ", 
+          items: [
+            { label: "Quản Trị - Lãnh Đạo", slug: "quan-tri-lanh-dao" },
+            { label: "Marketing - Bán Hàng", slug: "marketing-ban-hang" },
+            { label: "Khởi Nghiệp - Làm Giàu", slug: "khoi-nghiep-lam-giau" },
+            { label: "Phân Tích Kinh Tế", slug: "phan-tich-kinh-te" }
+          ] 
+        },
+        { 
+          title: "TÂM LÝ - KỸ NĂNG SỐNG", 
+          items: [
+            { label: "Kỹ Năng Sống", slug: "ky-nang-song" },
+            { label: "Rèn Luyện Nhân Cách", slug: "ren-luyen-nhan-cach" },
+            { label: "Tâm Lý", slug: "tam-ly" },
+            { label: "Sách Cho Tuổi Mới Lớn", slug: "sach-cho-tuoi-moi-lon" }
+          ] 
+        },
+        { 
+          title: "TIỂU SỬ - HỒI KÝ", 
+          items: [
+            { label: "Câu Chuyện Cuộc Đời", slug: "cau-chuyen-cuoc-doi" },
+            { label: "Nghệ Thuật - Giải Trí", slug: "nghe-thuat-giai-tri" },
+            { label: "Chính Trị", slug: "chinh-tri" },
+            { label: "Thể Thao", slug: "the-thao" }
+          ] 
+        },
+        { 
+          title: "SÁCH THIẾU NHI", 
+          items: [
+            { label: "Truyện Tranh", slug: "truyen-tranh" },
+            { label: "Tô Màu, Luyện Chữ", slug: "to-mau-luyen-chu" },
+            { label: "Kiến Thức Bách Khoa", slug: "kien-thuc-bach-khoa" },
+            { label: "Sách Nói", slug: "sach-noi" }
+          ] 
+        },
+        { 
+          title: "SÁCH HỌC NGOẠI NGỮ", 
+          items: [
+            { label: "Tiếng Anh", slug: "tieng-anh" },
+            { label: "Tiếng Trung", slug: "tieng-trung" },
+            { label: "Tiếng Nhật", slug: "tieng-nhat" },
+            { label: "Tiếng Pháp", slug: "tieng-phap" }
+          ] 
+        }
+      ],
+    },
+    {
+      name: "Sách Nước Ngoài",
+      subcategories: [
+        { 
+          title: "FICTION", 
+          items: [
+            { label: "Romance", slug: "romance" },
+            { label: "Fantasy", slug: "fantasy" },
+            { label: "Mystery", slug: "mystery" }
+          ] 
+        },
+        { 
+          title: "BUSINESS & MANAGEMENT", 
+          items: [
+            { label: "Economics", slug: "economics" },
+            { label: "Leadership", slug: "leadership" },
+            { label: "Finance & Accounting", slug: "finance-accounting" },
+            { label: "Law", slug: "law" }
+          ] 
+        },
+        { 
+          title: "PERSONAL DEVELOPMENT", 
+          items: [
+            { label: "Personal Finance", slug: "personal-finance" },
+            { label: "Consumer Advice", slug: "consumer-advice" },
+            { label: "Education", slug: "education" }
+          ] 
+        },
+        { 
+          title: "SOCIAL SCIENCE", 
+          items: [
+            { label: "Humanities", slug: "humanities" },
+            { label: "Sociology", slug: "sociology" },
+            { label: "Psychology", slug: "psychology" },
+            { label: "Statistics", slug: "statistics" }
+          ] 
+        },
+        { 
+          title: "ENGINEERING", 
+          items: [
+            { label: "Mechanical", slug: "mechanical" },
+            { label: "Computer", slug: "computer" },
+            { label: "Electrical", slug: "electrical" },
+            { label: "Civil", slug: "civil" }
+          ] 
+        },
+        { 
+          title: "MEDICAL", 
+          items: [
+            { label: "Anatomy", slug: "anatomy" },
+            { label: "Nursing", slug: "nursing" },
+            { label: "Medical Psychology", slug: "medical-psychology" },
+            { label: "Administration & Policy", slug: "administration-policy" }
+          ] 
+        },
+      ],
+    },
+    {
+      name: "Sách Giáo Khoa",
+      subcategories: [
+        { 
+          title: "SÁCH GIÁO KHOA", 
+          items: [
+            { label: "Lớp 1", slug: "sgk-lop-1" },
+            { label: "Lớp 2", slug: "sgk-lop-2" },
+            { label: "Lớp 3", slug: "sgk-lop-3" },
+            { label: "Lớp 4", slug: "sgk-lop-4" },
+            { label: "Lớp 5", slug: "sgk-lop-5" },
+            { label: "Lớp 6", slug: "sgk-lop-6" },
+            { label: "Lớp 7", slug: "sgk-lop-7" },
+            { label: "Lớp 8", slug: "sgk-lop-8" },
+            { label: "Lớp 9", slug: "sgk-lop-9" },
+            { label: "Lớp 10", slug: "sgk-lop-10" },
+            { label: "Lớp 11", slug: "sgk-lop-11" },
+            { label: "Lớp 12", slug: "sgk-lop-12" }
+          ] 
+        },
+        { 
+          title: "SÁCH THAM KHẢO", 
+          items: [
+            { label: "Lớp 1", slug: "stk-lop-1" },
+            { label: "Lớp 2", slug: "stk-lop-2" },
+            { label: "Lớp 3", slug: "stk-lop-3" },
+            { label: "Lớp 4", slug: "stk-lop-4" },
+            { label: "Lớp 5", slug: "stk-lop-5" },
+            { label: "Lớp 6", slug: "stk-lop-6" },
+            { label: "Lớp 7", slug: "stk-lop-7" },
+            { label: "Lớp 8", slug: "stk-lop-8" },
+            { label: "Lớp 9", slug: "stk-lop-9" },
+            { label: "Lớp 10", slug: "stk-lop-10" },
+            { label: "Lớp 11", slug: "stk-lop-11" },
+            { label: "Lớp 12", slug: "stk-lop-12" }
+          ] 
+        },
+        { 
+          title: "LUYỆN THI THPTQG", 
+          items: [
+            { label: "Môn Toán", slug: "luyen-thi-toan" },
+            { label: "Môn Ngữ Văn", slug: "luyen-thi-ngu-van" },
+            { label: "Môn Tiếng Anh", slug: "luyen-thi-tieng-anh" },
+            { label: "Môn Vật Lý", slug: "luyen-thi-vat-ly" },
+            { label: "Môn Hóa Học", slug: "luyen-thi-hoa-hoc" },
+            { label: "Môn Sinh Học", slug: "luyen-thi-sinh-hoc" },
+            { label: "Môn Lịch Sử", slug: "luyen-thi-lich-su" },
+            { label: "Môn Địa Lý", slug: "luyen-thi-dia-ly" }
+          ] 
+        }
+      ],
+    },
+  ];
     const startCloseTimer = () => {
     clearTimeout(closeTimerRef.current);
     closeTimerRef.current = setTimeout(() => {
@@ -291,10 +426,15 @@ export default function Header(){
                     <ul className="space-y-1">
                       {sub.items.map((item) => (
                         <li
-                          key={item}
+                          key={item.slug}
                           className="text-sm text-[#6b4f45] hover:text-[#b74e3a] cursor-pointer"
                         >
-                          {item}
+                          <Link
+                            to={`/category/${item.slug}`} // Chuyển đến trang category với slug tương ứng
+                            className="text-sm text-[#6b4f45] hover:text-[#b74e3a] cursor-pointer block"
+                          >
+                            {item.label}
+                          </Link>
                         </li>
                       ))}
                     </ul>
@@ -536,21 +676,21 @@ export default function Header(){
                   </li>
                   <li
                     className="flex items-center gap-3 px-5 py-3 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => navigate("/account", {state: { tab: "Đơn hàng của tôi" }})}
+                    onClick={() => navigate("/account/order", {state: { tab: "Đơn hàng của tôi" }})}
                   >
                     <img src={icons.bill} className="w-5 h-5"></img>
                     Đơn hàng của tôi
                   </li>
                   <li 
                     className="flex items-center gap-3 px-5 py-3 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => navigate("/account", {state: { tab: "Sản phẩm yêu thích" }})}
+                    onClick={() => navigate("/account/favorite", {state: { tab: "Sản phẩm yêu thích" }})}
                   >
                     <img src={icons.heart1} className="w-5 h-5"></img>
                     Sản phẩm yêu thích
                   </li>
                   <li 
                     className="flex items-center gap-3 px-5 py-3 hover:bg-gray-100 cursor-pointer"
-                    onClick={() => navigate("/account", {state: { tab: "Ví voucher" }})}
+                    onClick={() => navigate("/account/voucher", {state: { tab: "Ví voucher" }})}
                   >
                     <img src={icons.voucher} className="w-5 h-5"></img>
                     Ví voucher
@@ -589,7 +729,6 @@ export default function Header(){
       {showAuthModal && (
         <div className="fixed inset-0 bg-black/50 bg-opacity-50 flex items-center justify-center z-50">
           <div ref={modalRef} className="bg-white p-8 rounded-lg shadow-lg w-110 relative min-h-[500px]">
-
             {/* Close Button */}
             <button
               onClick={() => setShowAuthModal(false)}
@@ -597,7 +736,6 @@ export default function Header(){
             >
               ×
             </button>
-
             {/* Tabs */}
             <div className="flex mb-10 border-b">
               <button
@@ -784,11 +922,9 @@ export default function Header(){
         <div className="fixed inset-0 flex items-center justify-center bg-black/50 backdrop-blur-sm z-50">
           <div className="bg-white p-6 rounded-xl shadow-xl w-96 text-center animate-fade-in">
             <h2 className="text-lg font-semibold mb-2">Bạn đã đăng xuất</h2>
-
             <p className="text-sm text-gray-600 mb-4">
               Đang chuyển hướng về trang chủ trong <b>{countdown}s</b>...
             </p>
-
             <button
               onClick={() => {
                 if (intervalRef.current) {
@@ -805,8 +941,6 @@ export default function Header(){
           </div>
         </div>
       )}
-
     </header>
-    
   );
 }
